@@ -1,3 +1,7 @@
+import xlwt
+from xlwt import Workbook
+
+
 class Contact:
     def __init__(self, name, number):
         self.name = name
@@ -31,5 +35,26 @@ if __name__ == '__main__':
                     name = ""
                     number = ""
 
-    for contact in sorted(contacts, key=lambda x: x.name):
+    contacts = sorted(contacts, key=lambda x: x.name)
+
+    for contact in contacts:
         print(contact)
+
+    # Create workbook
+    wb = Workbook()
+
+    # Create sheet
+    sheet = wb.add_sheet('Contacts')
+
+    # Specifying bold style
+    style = xlwt.easyxf('font: bold 1')
+
+    # Row, Column
+    sheet.write(0, 0, 'Full Name', style)
+    sheet.write(0, 1, 'Telephone Number', style)
+
+    for idx, c in enumerate(contacts):
+        sheet.write(idx + 1, 0, c.name)
+        sheet.write(idx + 1, 1, c.number)
+
+    wb.save('contact.xls')
